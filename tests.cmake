@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.19.0)
 
-set(PROJECTLIBTESTS ExampleTests)
+set(PROJECTLIBTESTS AlgorithmAnalysisTests)
 set(GOOGLETEST_DIR {CMAKE_CURRENT_SOURCE_DIR}/dependencies/googletest/build/)
 
 link_directories(

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.19.0)
 
-set (This "ExampleSetup")
+set (This "AlgorithmAnalysis")
 
 project(${This} C CXX)
 file (MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/output
@@ -17,10 +17,10 @@ set(CMAKE_INCLUDE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/inc)
 
 set(CMAKE_OUTPUT_DIR ${CMAKE_BINARY_DIR})
 
-set(PROJECTLIB ExampleLib)
-# set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-# set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++17")
-#set(CMAKE_CXX_STANDARD 17)
+set(PROJECTLIB algorithmanalysis)
+#set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++17")
+set(CMAKE_CXX_STANDARD 17)
 find_package(GTest REQUIRED)
 if(!Gtest_FOUND)
     message(STATUS "Gtest Not Found")
@@ -47,7 +47,6 @@ link_directories(
     ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}   
 )
 
-
 add_executable(
     ${This}
     ${PROJECTMAINFILE}
@@ -56,4 +55,3 @@ add_executable(
 target_link_libraries(${This}
     ${PROJECTLIB}
 )
-
