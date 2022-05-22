@@ -5,6 +5,9 @@
 #include <iostream>
 #include <utility>
 
+#include <chrono>
+#include <thread>
+
 template <typename Type>
 int quickSelectOperation(std::vector<Type> &list, int start, int end)
 {
@@ -24,21 +27,21 @@ int quickSelectOperation(std::vector<Type> &list, int start, int end)
 
     do
     {
-        std::cout<<"Less Iterator: "<< lessIterator;
+        std::cout << "Less Iterator: " << lessIterator;
         while (list[lessIterator] < list[start] && lessIterator < end)
         {
             lessIterator++;
-            std::cout<<" "<<lessIterator;
+            std::cout << " " << lessIterator;
         }
-        std::cout<<'\n';
+        std::cout << '\n';
 
-        std::cout<<"Large Iterator: "<< largeIterator;
+        std::cout << "Large Iterator: " << largeIterator;
         while (list[largeIterator] > list[start] && largeIterator > start)
         {
             largeIterator--;
-            std::cout<<" "<<largeIterator;
+            std::cout << " " << largeIterator;
         }
-        std::cout<<'\n';
+        std::cout << '\n';
 
         if (largeIterator > lessIterator)
         {
@@ -66,24 +69,40 @@ int quickSelectOperation(std::vector<Type> &list, int start, int end)
 }
 
 template <typename Type>
-const Type quickSelect(std::vector<Type> &list, int nthLargest)
+const Type quickSelect(std::vector<Type> &list, int nthSmallest)
 {
     int pivotIndex = 0;
-    if (list.size() < nthLargest)
+    std::cout << "*******Running quickSelect******\n";
+    if (list.size() < nthSmallest || nthSmallest < 1)
     {
-        std::cout << "Number of elements are not enough!!"
+        std::cout << "Number of elements are not enough!! or Invalid Input!!"
                   << "\n";
         return -1;
     }
 
-    pivotIndex = quickSelectOperation(list, pivotIndex, list.size() - 1);
-    while(pivotIndex != (nthLargest - 1))
+    int prevPivotIndex = pivotIndex;
+    int endIndex = list.size() - 1;
+    int startIndex = pivotIndex;
+
+    do
     {
-        if(pivotIndex > (nthLargest - 1))
-            pivotIndex = quickSelectOperation(list, 0, pivotIndex);
-        else
-            pivotIndex = quickSelectOperation(list, pivotIndex, list.size() - 1);
-    }
+        prevPivotIndex = pivotIndex;
+        std::cout << "Start Index: " << startIndex << " End Index: " << endIndex << " Pivot Index: " << pivotIndex << '\n';
+        pivotIndex = quickSelectOperation(list, startIndex, endIndex);
+        if (pivotIndex == prevPivotIndex)
+        {
+            startIndex = startIndex + 1;
+        }
+        else if (pivotIndex > (nthSmallest - 1))
+        {
+            endIndex = pivotIndex;
+        }
+        else if (pivotIndex < (nthSmallest - 1))
+        {
+            startIndex = pivotIndex;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    } while (pivotIndex != (nthSmallest - 1));
 
     return list[pivotIndex];
 }
