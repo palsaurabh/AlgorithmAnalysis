@@ -101,7 +101,7 @@ const Type quickSelect(std::vector<Type> &list, int nthSmallest)
         {
             startIndex = pivotIndex;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+/*        std::this_thread::sleep_for(std::chrono::milliseconds(500));*/
     } while (pivotIndex != (nthSmallest - 1));
 
     return list[pivotIndex];

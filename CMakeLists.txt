@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 3.19.0)
 set (This "AlgorithmAnalysis")
 
 project(${This} C CXX)
-file (MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/output
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/output/bin
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/output/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/build/output/lib
+file (MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build/output
+    ${CMAKE_SOURCE_DIR}/build/output/bin
+    ${CMAKE_SOURCE_DIR}/build/output/inc
+    ${CMAKE_SOURCE_DIR}/build/output/lib
     )
 
-set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build/output)
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build/output)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -24,8 +24,8 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(GTest REQUIRED)
 if(!Gtest_FOUND)
     message(STATUS "Gtest Not Found")
-    if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/googletest )
-        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/dependencies/googletest)
+    if (EXISTS ${CMAKE_SOURCE_DIR}/dependencies/googletest )
+        add_subdirectory(${CMAKE_SOURCE_DIR}/dependencies/googletest)
     endif()
 endif()
 
@@ -35,11 +35,11 @@ include(src.cmake)
 include(tests.cmake)
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src
     )
 
 aux_source_directory(
-    ${CMAKE_CURRENT_SOURCE_DIR}/ PROJECTMAINFILE
+    ${CMAKE_SOURCE_DIR}/ PROJECTMAINFILE
 )
 
 link_directories(
@@ -55,3 +55,9 @@ add_executable(
 target_link_libraries(${This}
     ${PROJECTLIB}
 )
+
+file(GLOB MY_PUBLIC_HEADERS
+  "${CMAKE_SOURCE_DIR}/src/*.h"
+)
+file(COPY ${MY_PUBLIC_HEADERS}
+     DESTINATION ${CMAKE_INCLUDE_OUTPUT_DIRECTORY})

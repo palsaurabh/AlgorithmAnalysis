@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "quickSelectAlgo.h"
+#include "quickSelectAlgo.hpp"
 
 TEST(QuickSelectALgoTests, QuickSelectOperationTest)
 {
