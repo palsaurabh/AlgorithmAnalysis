@@ -94,4 +94,23 @@ TEST(customADTVector, vectorCreateTest)
     }
     std::cout<<'\n'; 
 
+    vec4.resize(192);
+    EXPECT_EQ(vec4.size(), 192);
+    EXPECT_EQ(vec4.capacity(), 200 + VECTOR_SIZE_BLOCK);
+
+    vec4.resize(700);
+    EXPECT_EQ(vec4.size(), 700);
+    EXPECT_EQ(vec4.capacity(), 700*2);
+    const complexType *arr7 = vec4.getArr();
+    for(int i = 0; i < vec4.size(); i++)
+    {
+        std::cout<<arr7[i].get()<<' ';
+    }
+    std::cout<<'\n'; 
+
+    EXPECT_FALSE(vec4.isEmpty());
+    vec[0] = complexType{3};
+    complexType var = vec[0];
+    EXPECT_EQ(var.get(), 3);
 }
+
