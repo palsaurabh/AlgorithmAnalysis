@@ -117,7 +117,7 @@ public:
         cap = newCapacity;
         delete[] newVec;
     }
-    
+
     /*Define [] operator for the vector class
     This non-const version is used when non const
     vesion is needed*/
@@ -163,7 +163,7 @@ public:
     /*Remove the last element from the vector*/
     void pop_back()
     {
-        if(length > 0)
+        if (length > 0)
             --length;
     }
 
@@ -204,10 +204,136 @@ public:
 private:
     /*Current length of the vector*/
     int length;
-    /*Current capacity of the vector, 
+    /*Current capacity of the vector,
     till which length can be increased*/
     int cap;
     /*Handle for storing the object, internal array, which this
     vector class manages*/
     Object *objects;
+};
+
+/*Implementation of standard library 'list', similar to it
+It abstracts a raw linked-list implementation and provides
+interface to manipulate and work with it in a more intuitive
+manner*/
+template <typename Object>
+class List
+{
+private:
+    struct Node
+    {
+        Object data;
+        Node *next;
+        Node *previous;
+
+        Node(const Object &d, Node *n = nullptr, Node *p = nullptr) : data{d}, next{n}, previous{p}
+        {
+        }
+
+        Node(Object && d, Node *n = nullptr, Node *p = nullptr) : data{std::move(d)}, next{n}, previous{p}
+        {
+        }
+    };
+
+public:
+    class const_iterator
+    { /* See Figure 3.14 */
+    };
+    class iterator : public const_iterator
+    { /* See Figure 3.15 */
+    };
+
+public:
+    List()
+    { /* See Figure 3.16 */
+    }
+    List(const List &rhs)
+    { /* See Figure 3.16 */
+    }
+    ~List()
+    { /* See Figure 3.16 */
+    }
+    List &operator=(const List &rhs)
+    { /* See Figure 3.16 */
+    }
+    List(List &&rhs)
+    { /* See Figure 3.16 */
+    }
+    List &operator=(List &&rhs)
+    { /* See Figure 3.16 */
+    }
+
+    iterator begin()
+    {
+    }
+    const_iterator begin() const
+    {
+    }
+    iterator end()
+    {
+    }
+    const_iterator end() const
+    {
+    }
+    int size() const
+    {
+    }
+    bool empty() const
+    {
+    }
+    void clear()
+    {
+    }
+
+    Object &front()
+    {
+    }
+    const Object &front() const
+    {
+    }
+    Object &back()
+    {
+    }
+    const Object &back() const
+    {
+    }
+    void push_front(const Object &x)
+    {
+    }
+    void push_front(Object &&x)
+    {
+    }
+    void push_back(const Object &x)
+    {
+    }
+    void push_back(Object &&x)
+    {
+    }
+    void pop_front()
+    {
+    }
+    void pop_back()
+    {
+    }
+    iterator insert(iterator itr, const Object &x)
+    { /* See Figure 3.18 */
+    }
+    iterator insert(iterator itr, Object &&x)
+    { /* See Figure 3.18 */
+    }
+
+    iterator erase(iterator itr)
+    { /* See Figure 3.20 */
+    }
+    iterator erase(iterator from, iterator to)
+    { /* See Figure 3.20 */
+    }
+
+private:
+    int theSize;
+    Node *head;
+    Node *tail;
+    void init()
+    { /* See Figure 3.16 */
+    }
 };
