@@ -1,11 +1,11 @@
 #include <iostream>
 #include <algorithm>
 
-#define VECTOR_SIZE_BLOCK 20
 template <typename Object>
 class Vector
 {
 public:
+    static const int VECTOR_SIZE_BLOCK = 20;
     /*
     Constructor made explicit so that only correct syntax can be used to initialise the vector.
     */
@@ -84,11 +84,15 @@ public:
         return cap;
     }
 
+    /*Routine to get the internal array stored by the vector
+    NOTE: The standard library implementations may not contain
+    this function*/
     const auto &getArr() const
     {
         return objects;
     }
 
+    /*Routine to resize the vector*/
     void resize(int newSize)
     {
         if (newSize > cap)
@@ -98,34 +102,112 @@ public:
         length = newSize;
     }
 
+    /*Reserve new capacity for the vector
+    NOTE: This is a costly operation, to optimise the
+    cost, the new capacity is generally multiples of the
+    previous size*/
     void reserve(int newCapacity)
     {
         Object *newVec = new Object[newCapacity];
-        for(int i = 0; i < cap; i++)
+        for (int i = 0; i < cap; i++)
         {
             newVec[i] = std::move(objects[i]);
         }
         std::swap(objects, newVec);
         cap = newCapacity;
-        delete [] newVec;
+        delete[] newVec;
     }
-
-    Object & operator[] (int index)
+    
+    /*Define [] operator for the vector class
+    This non-const version is used when non const
+    vesion is needed*/
+    Object &operator[](int index)
     {
         return objects[index];
     }
 
-    const Object & operator[] (int index) const
+    /*Define [] operator for the vector class
+    This const version is used when const
+    vesion is needed*/
+    const Object &operator[](int index) const
     {
         return objects[index];
     }
 
+    /*function to check whether the vector is empty*/
     bool isEmpty() const
     {
         return (size() == 0);
     }
+
+    /*Push back implementation for lvalue input*/
+    void push_back(const Object &element)
+    {
+        if (length == cap)
+        {
+            reserve(cap * 2 + 1);
+        }
+        objects[length++] = element;
+    }
+
+    /*Push back implementation for rvalue input*/
+    void push_back(Object &&element)
+    {
+        if (length == cap)
+        {
+            reserve(cap * 2 + 1);
+        }
+        objects[length++] = std::move(element);
+    }
+
+    /*Remove the last element from the vector*/
+    void pop_back()
+    {
+        if(length > 0)
+            --length;
+    }
+
+    /*Return the value of the last element in the vector
+    Use this function only when the size() > 0*/
+    const Object &back() const
+    {
+        return objects[length - 1];
+    }
+
+    typedef Object *iterator;
+    typedef const Object *const_iterator;
+
+    /*Return iterator to the first element*/
+    iterator begin()
+    {
+        return &objects[0];
+    }
+
+    /*Return constant iterator to the first element*/
+    const_iterator begin() const
+    {
+        return &objects[0];
+    }
+
+    /*Return iterator to the last element*/
+    iterator end()
+    {
+        return &objects[length];
+    }
+
+    /*Return const iterator to the last element*/
+    const_iterator end() const
+    {
+        return &objects[length];
+    }
+
 private:
+    /*Current length of the vector*/
     int length;
+    /*Current capacity of the vector, 
+    till which length can be increased*/
     int cap;
+    /*Handle for storing the object, internal array, which this
+    vector class manages*/
     Object *objects;
 };
