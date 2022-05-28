@@ -20,7 +20,7 @@ private:
     int complexTypeMember;
 };
 
-TEST(customADTVector, vectorCreateTest)
+TEST(customADTVector, vectorTests)
 {
     Vector<complexType> vec{3};
     EXPECT_EQ(vec.size(), 3);
@@ -140,3 +140,7 @@ TEST(customADTVector, vectorCreateTest)
 
 }
 
+TEST(customADTList, listTests)
+{
+
+}
