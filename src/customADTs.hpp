@@ -226,26 +226,58 @@ private:
         Node *next;
         Node *previous;
 
-        Node(const Object &d, Node *n = nullptr, Node *p = nullptr) : data{d}, next{n}, previous{p}
-        {
-        }
+        Node(const Object &d = Object{}, Node *n = nullptr, Node *p = nullptr) : data{d}, next{n}, previous{p} {}
 
-        Node(Object && d, Node *n = nullptr, Node *p = nullptr) : data{std::move(d)}, next{n}, previous{p}
-        {
-        }
+        Node(Object &&d, Node *n = nullptr, Node *p = nullptr) : data{std::move(d)}, next{n}, previous{p} {}
     };
 
 public:
     class const_iterator
-    { /* See Figure 3.14 */
+    {
+    public:
+        const_iterator() : current{nullptr} {}
+
+        const Object &operator*() const
+        {
+            return current->data;
+        }
+
+        const_iterator &operator++()
+        {
+            current = current->next;
+            return *this;
+        }
+
+        const_iterator &operator++(int)
+        {
+            const_iterator old = *this;
+            ++(*this);
+            return old;
+        }
+
+        bool operator==(const const_iterator &it)
+        {
+            return current == it.current;
+        }
+
+        bool operator!=(const const_iterator &it)
+        {
+            return current != it.current;
+        }
+
+    protected:
+        Node *current;
+        const_iterator(const Node *cur) : current{cur} {}
     };
+
     class iterator : public const_iterator
-    { /* See Figure 3.15 */
+    {
     };
 
 public:
     List()
-    { /* See Figure 3.16 */
+    {
+        init();
     }
     List(const List &rhs)
     { /* See Figure 3.16 */
@@ -268,18 +300,24 @@ public:
     }
     const_iterator begin() const
     {
+        return const_iterator{head->next};
     }
+
     iterator end()
     {
     }
     const_iterator end() const
     {
+        return const_iterator{tail};
     }
     int size() const
     {
+        return theSize;
     }
+
     bool empty() const
     {
+        return (size() == 0);
     }
     void clear()
     {
@@ -290,12 +328,14 @@ public:
     }
     const Object &front() const
     {
+        return *(begin());
     }
     Object &back()
     {
     }
     const Object &back() const
     {
+        return *--end();
     }
     void push_front(const Object &x)
     {
@@ -334,6 +374,11 @@ private:
     Node *head;
     Node *tail;
     void init()
-    { /* See Figure 3.16 */
+    {
+        head = new Node;
+        tail = new Node;
+        theSize = 0;
+        head->next = tail;
+        tail->previous = head;
     }
 };

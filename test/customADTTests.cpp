@@ -138,9 +138,24 @@ TEST(customADTVector, vectorTests)
     Vector<complexType>::const_iterator const_it  = vec.begin();
     EXPECT_EQ(const_it->get(), 9);
 
+    for(auto & element : vec)
+    {
+        std::cout<<element.get()<<' ';
+    }
+    std::cout<<'\n';
+
+    for(auto it = vec.begin(); it != vec.end(); it++)
+    {
+        std::cout<<it->get()<<' ';
+    }
+    std::cout<<'\n';
+
 }
 
 TEST(customADTList, listTests)
 {
+    List<complexType> list;
+    EXPECT_EQ(list.size(), 0);
+    EXPECT_TRUE(list.empty());
 
 }
